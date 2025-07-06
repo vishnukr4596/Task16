@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Web Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa, #dee2e6);
+      margin: 0;
+      padding: 0;
+    }
+    .container, .info-display, .img-section, .font-size-section, .datetime-section {
+      background: #ffffff;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      text-align: center;
+      color: #343a40;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #495057;
+    }
+    input[type="text"], input[type="tel"], input[type="email"], select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ced4da;
+      border-radius: 6px;
+      margin-top: 6px;
+    }
+    .gender, .education {
+      margin-top: 12px;
+    }
+    .gender label, .education label {
+      margin-right: 12px;
+      font-weight: normal;
+      color: #495057;
+    }
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    button, input[type="reset"] {
+      background-color: #17a2b8;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      font-size: 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #138496;
+    }
+    input[type="reset"] {
+      background-color: #6c757d;
+    }
+    input[type="reset"]:hover {
+      background-color: #5a6268;
+    }
+    .info-display {
+      background: #e3f2fd;
+      border-left: 6px solid #2196f3;
+      font-size: 1.1em;
+      color: #0d47a1;
+    }
+    ul {
+      padding-left: 18px;
+    }
+
+    .img-section img {
+      width: 180px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .font-size-section p {
+      color: #212529;
+      font-size: 16px;
+      transition: font-size 0.3s ease;
+    }
+
+    .datetime-section {
+      text-align: center;
+      font-size: 1.3em;
+      color: #28a745;
+    }
+
+    @media (max-width: 600px) {
+      .container, .info-display, .img-section, .font-size-section, .datetime-section {
+        margin: 20px 10px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Colorful Information Form</h2>
+    <form id="infoForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="mobile">Mobile No:</label>
+      <input type="tel" id="mobile" name="mobile" required>
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" required>
+
+      <div class="gender">
+        <label>Gender:</label>
+        <label><input type="radio" name="gender" value="Male"> Male</label>
+        <label><input type="radio" name="gender" value="Female"> Female</label>
+      </div>
+
+      <div class="education">
+        <label>Education Done:</label>
+        <label><input type="checkbox" name="education" value="10th"> 10th</label>
+        <label><input type="checkbox" name="education" value="12th"> 12th</label>
+        <label><input type="checkbox" name="education" value="Graduation"> Graduation</label>
+        <label><input type="checkbox" name="education" value="Post Graduation"> Post Graduation</label>
+      </div>
+
+      <label for="tea">Do you like tea?</label>
+      <select id="tea" name="tea">
+        <option value="">--Select--</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        <option value="Sometimes">Sometimes</option>
+      </select>
+
+      <div class="buttons">
+        <button type="submit">Submit</button>
+        <input type="reset" value="Reset">
+      </div>
+    </form>
+  </div>
+
+  <div id="formDataDisplay" class="info-display"></div>
+
+  <div class="img-section">
+    <img id="changeableImg" src=" 0.jpg " alt="Image">
+    <br>
+    <button onclick="changeImage()">Change Image</button>
+  </div>
+
+  <div class="font-size-section">
+    <p id="fontText">Click buttons to change my font size!</p>
+    <button onclick="changeFontSize(1)">Increase Font Size</button>
+    <button onclick="changeFontSize(-1)">Decrease Font Size</button>
+  </div>
+
+  <div class="datetime-section">
+    <span id="dateTime"></span>
+  </div>
+
+  <script>
+    // Form Submission
+    document.getElementById('infoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value;
+      const mobile = form.mobile.value;
+      const email = form.email.value;
+      const gender = form.gender.value;
+      const education = Array.from(form.querySelectorAll('input[name="education"]:checked')).map(e => e.value).join(', ');
+      const tea = form.tea.value;
+
+      document.getElementById('formDataDisplay').innerHTML = `
+        <h3>Submitted Information</h3>
+        <ul>
+          <li><strong>Name:</strong> ${name}</li>
+          <li><strong>Mobile:</strong> ${mobile}</li>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Gender:</strong> ${gender || 'Not selected'}</li>
+          <li><strong>Education:</strong> ${education || 'None'}</li>
+          <li><strong>Likes Tea:</strong> ${tea || 'Not selected'}</li>
+        </ul>
+      `;
+    });
+
+    // Image Change
+     const images = [ "0.jpg", "1.jpg", "2.jpg", "3.jpg" ];
+    let imgIndex = 0;
+
+    function changeImage() {
+      imgIndex = (imgIndex + 1) % images.length;
+      document.getElementById("changeableImg").src = images[imgIndex];
+    }
+
+    // Font Size Control
+    let fontSize = 16;
+    function changeFontSize(delta) {
+      fontSize = Math.max(12, Math.min(40, fontSize + delta));
+      document.getElementById('fontText').style.fontSize = fontSize + "px";
+    }
+
+    // Date & Time Display
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById('dateTime').textContent = "Current Date & Time: " + now.toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+  </script>
+
+</body>
+</html>
